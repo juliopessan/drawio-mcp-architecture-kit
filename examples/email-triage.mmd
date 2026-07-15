@@ -1,0 +1,12 @@
+flowchart LR
+    U[Users] --> O[Outlook Shared Mailbox]
+    O --> G[Microsoft Graph]
+    G --> C[Copilot Studio]
+    C --> D[Dataverse Rules]
+    D --> A{Confidence Analysis}
+    A -->|High| R[Auto Route]
+    A -->|Medium or Low| P[Analyst Review]
+    R --> N[Notifications]
+    P --> N
+    M[Azure Monitor] -. telemetry .-> C
+    L[Log Analytics] -. diagnostics .-> M
