@@ -14,9 +14,18 @@ The draw.io web application and viewer assets may still be loaded from diagrams.
 
 Example:
 
-```bash
-export DRAWIO_BASE_URL="https://drawio.internal.example"
-codex mcp add drawio-local --env DRAWIO_BASE_URL="$DRAWIO_BASE_URL" -- npx -y @drawio/mcp
+```jsonc
+// .vscode/mcp.json
+{
+  "servers": {
+    "drawio-local": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@drawio/mcp"],
+      "env": { "DRAWIO_BASE_URL": "https://drawio.internal.example" }
+    }
+  }
+}
 ```
 
 ## LLM boundary

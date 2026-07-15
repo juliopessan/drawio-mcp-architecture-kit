@@ -1,10 +1,10 @@
 # Draw.io MCP Architecture Kit
 
-Production-ready starter kit for generating editable architecture diagrams with the official draw.io MCP server.
+Production-ready starter kit for generating editable architecture diagrams with the official draw.io MCP server, using GitHub Copilot Chat (agent mode) in VS Code.
 
 ## What this project provides
 
-- Codex MCP configuration for remote and local draw.io servers
+- VS Code (`.vscode/mcp.json`) MCP configuration for remote and local draw.io servers
 - Reusable architecture prompt standard
 - Mermaid source-of-truth examples
 - Validation scripts for prerequisites and MCP registration
@@ -13,17 +13,10 @@ Production-ready starter kit for generating editable architecture diagrams with 
 
 ## Recommended mode
 
-Use the hosted MCP App endpoint for the fastest setup:
+The workspace already ships a [`.vscode/mcp.json`](.vscode/mcp.json) with both servers defined:
 
-```bash
-codex mcp add drawio --url https://mcp.draw.io/mcp
-```
-
-Use the local MCP Tool Server for sensitive diagrams or environments that require local processing:
-
-```bash
-codex mcp add drawio-local -- npx -y @drawio/mcp
-```
+- `drawio` — hosted MCP App endpoint (`https://mcp.draw.io/mcp`), fastest setup.
+- `drawio-local` — local MCP Tool Server (`npx -y @drawio/mcp`), for sensitive diagrams or environments that require local processing.
 
 ## Quick start
 
@@ -39,7 +32,11 @@ For local mode:
 ./scripts/validate.sh
 ```
 
-Then open Codex and run `/mcp` to confirm that `drawio` or `drawio-local` is available.
+Then, in VS Code:
+
+1. Reload the window (`Developer: Reload Window`) so Copilot picks up `.vscode/mcp.json`.
+2. Open Copilot Chat and switch to **Agent** mode.
+3. Run `MCP: List Servers` from the Command Palette to confirm `drawio` or `drawio-local` is connected.
 
 ## Generate a diagram
 

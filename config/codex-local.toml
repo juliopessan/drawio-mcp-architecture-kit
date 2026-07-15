@@ -1,5 +1,0 @@
-# Merge this block into ~/.codex/config.toml
-[mcp_servers.drawio-local]
-command = "npx"
-args = ["-y", "@drawio/mcp"]
-startup_timeout_sec = 30

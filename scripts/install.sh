@@ -2,16 +2,24 @@
 set -euo pipefail
 
 MODE="${1:-remote}"
+MCP_CONFIG=".vscode/mcp.json"
 
-if ! command -v codex >/dev/null 2>&1; then
-  echo "ERROR: Codex CLI was not found in PATH." >&2
-  echo "Install or expose the Codex CLI, then rerun this script." >&2
+if ! command -v code >/dev/null 2>&1; then
+  echo "WARN: VS Code CLI ('code') not found in PATH; skipping window reload check." >&2
+fi
+
+if [ ! -f "$MCP_CONFIG" ]; then
+  echo "ERROR: $MCP_CONFIG not found. It should ship with this repo." >&2
   exit 1
 fi
 
 case "$MODE" in
   remote)
-    codex mcp add drawio --url https://mcp.draw.io/mcp
+    if ! grep -q '"drawio"' "$MCP_CONFIG"; then
+      echo "ERROR: 'drawio' server entry missing from $MCP_CONFIG." >&2
+      exit 1
+    fi
+    echo "Remote server 'drawio' is configured in $MCP_CONFIG."
     ;;
   local)
     if ! command -v node >/dev/null 2>&1 || ! command -v npx >/dev/null 2>&1; then
@@ -23,7 +31,11 @@ case "$MODE" in
       echo "ERROR: Node.js 20+ is required; found $(node --version)." >&2
       exit 1
     fi
-    codex mcp add drawio-local -- npx -y @drawio/mcp
+    if ! grep -q '"drawio-local"' "$MCP_CONFIG"; then
+      echo "ERROR: 'drawio-local' server entry missing from $MCP_CONFIG." >&2
+      exit 1
+    fi
+    echo "Local server 'drawio-local' is configured in $MCP_CONFIG."
     ;;
   *)
     echo "Usage: $0 [remote|local]" >&2
@@ -31,4 +43,4 @@ case "$MODE" in
     ;;
 esac
 
-codex mcp list
+echo "Reload the VS Code window and run 'MCP: List Servers' from the Command Palette to confirm connectivity."
